@@ -1,26 +1,28 @@
 /* General styles */
 .App {
   text-align: center;
-  background-color: #1c1c1c;
-  color: white;
+  background-color: #a89f9f;
+  color: #232121;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.header {
-  background-color: #333;
+.header, .footer {
+  background-color: #4e4949;
+  color: #928181;
   padding: 20px;
   width: 100%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 .footer {
-  background-color: #333;
-  padding: 10px;
-  width: 100%;
-  text-align: center;
+  padding: 12px;
+  font-size: 0.9rem;
+  color: #aaaaaa;
 }
 
 nav {
@@ -28,48 +30,50 @@ nav {
 }
 
 nav a {
-  color: white;
+  color: #9bcad4;
   text-decoration: none;
-  margin: 0 10px;
+  margin: 0 15px;
+  font-weight: 500;
 }
 
 nav a:hover {
   text-decoration: underline;
+  color: #00ffc8;
 }
 
 /* PathfindingVisualizer styles */
 .pathfinding-visualizer {
-  background-color: white;
-  color: black;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  color: #222;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
+  margin-top: 20px;
 }
 
+/* Node styles */
 .node {
   width: 25px;
   height: 25px;
-  outline: 1px solid #aaa;
+  outline: 1px solid #ccc;
   display: inline-block;
-}
-
-.node-finish {
-  background-color: rgb(255, 0, 217);
+  transition: background-color 0.3s, transform 0.2s;
 }
 
 .node-start {
-  background-color: rgb(90, 0, 128);
+  background-color: #6f42c1;
+}
+
+.node-finish {
+  background-color: #e83e8c;
+}
+
+.node-wall {
+  background-color: #2c3e50;
 }
 
 .node-visited {
-  animation-name: visitedAnimation;
-  animation-duration: 1.5s;
-  animation-timing-function: ease-out;
-  animation-delay: 0;
-  animation-direction: alternate;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-  animation-play-state: running;
+  animation: visitedAnimation 1.5s ease-out forwards;
 }
 
 @keyframes visitedAnimation {
@@ -78,52 +82,53 @@ nav a:hover {
     background-color: rgba(0, 0, 66, 0.75);
     border-radius: 100%;
   }
-
   50% {
     background-color: rgba(17, 104, 217, 0.75);
   }
-
   75% {
     transform: scale(1.2);
     background-color: rgba(0, 217, 159, 0.75);
   }
-
   100% {
     transform: scale(1);
     background-color: rgba(0, 190, 218, 0.75);
   }
 }
 
-.node-wall {
-  background-color: rgb(12, 53, 71);
-}
-
 .node-shortest-path {
-  animation-name: shortestPath;
-  animation-duration: 1.5s;
-  animation-timing-function: ease-out;
-  animation-delay: 0;
-  animation-direction: alternate;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-  animation-play-state: running;
+  animation: shortestPath 1.5s ease-out forwards;
 }
 
 @keyframes shortestPath {
   0% {
     transform: scale(0.6);
-    background-color: rgb(255, 254, 106);
+    background-color: #ffd700;
   }
-
   50% {
     transform: scale(1.2);
-    background-color: rgb(255, 254, 106);
+    background-color: #ffdd57;
   }
-
   100% {
     transform: scale(1);
-    background-color: rgb(255, 254, 106);
+    background-color: #ffc107;
   }
 }
 
-/* Additional styles can be added as needed */
+/* Button Styling (Optional) */
+button {
+  background-color: #201f27;
+  color: #120f0f;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background-color: #18a2dd;
+  transform: scale(1.05);
+}
