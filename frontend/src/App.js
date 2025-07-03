@@ -9,7 +9,7 @@ function App() {
     <div className="App">
       <header className="header">
         <h1>Dijkstra's Algorithm</h1>
-        <p>An Amazing Algorithm</p>
+        <p>Shortest Path Finding Algorithm</p>
         <nav>
           <Link to="/">Home</Link>
           <Link to="/visualizer">Visualizer</Link>
@@ -19,7 +19,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/visualizer" element={<PathfindingVisualizerPage />} />
       </Routes>
-      <footer className="footer">
+      {/* <footer className="footer">
         <p>
           © All rights reserved. |{" "}
           <a
@@ -33,7 +33,7 @@ function App() {
             GitHub
           </a>
         </p>
-      </footer>
+      </footer> */}
     </div>
   );
 }

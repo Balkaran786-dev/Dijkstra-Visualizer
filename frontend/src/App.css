@@ -54,11 +54,11 @@ nav a:hover {
 }
 
 .node-finish {
-  background-color: red;
+  background-color: rgb(255, 0, 217);
 }
 
 .node-start {
-  background-color: green;
+  background-color: rgb(90, 0, 128);
 }
 
 .node-visited {
