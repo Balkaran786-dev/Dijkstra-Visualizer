@@ -2,8 +2,9 @@ services:
   - type: web
     name: dijkstra-frontend
     env: static
-    buildCommand: cd frontend && npm install && npm run build
-    staticPublishPath: ./frontend/build
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./build
     routes:
       - type: rewrite
         source: /*
@@ -12,8 +13,9 @@ services:
   - type: web
     name: dijkstra-backend
     env: node
-    buildCommand: cd backend/baceknd && npm install
-    startCommand: cd backend/baceknd && node server.js
+    rootDir: backend/baceknd
+    buildCommand: npm install
+    startCommand: node server.js
     envVars:
       - key: NODE_ENV
         value: production
