@@ -1,8 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const {exec} = require('child_process');
+const { exec } = require('child_process');
 const fs = require('fs');
+const path = require('path');
 
 const app = express();
 const port = 3001;
@@ -17,16 +18,13 @@ app.post('/api/cpp', (req, res) => {
 
   fs.writeFileSync(fileName, code);
 
-  exec(
-    `g++ ${fileName} -o main && ${outputFileName}`,
-    (error, stdout, stderr) => {
-      if (error) {
-        res.json({status: 'error', message: stderr});
-        return;
-      }
-      res.json({status: 'success', stdout: stdout, stderr: stderr});
-    },
-  );
+  exec(`g++ ${fileName} -o main && ${outputFileName}`, (error, stdout, stderr) => {
+    if (error) {
+      res.json({ status: 'error', message: stderr });
+      return;
+    }
+    res.json({ status: 'success', stdout, stderr });
+  });
 });
 
 app.post('/api/java', (req, res) => {
@@ -37,10 +35,10 @@ app.post('/api/java', (req, res) => {
 
   exec(`javac ${fileName} && java Main`, (error, stdout, stderr) => {
     if (error) {
-      res.json({status: 'error', message: stderr});
+      res.json({ status: 'error', message: stderr });
       return;
     }
-    res.json({status: 'success', stdout: stdout, stderr: stderr});
+    res.json({ status: 'success', stdout, stderr });
   });
 });
 
@@ -49,12 +47,19 @@ app.post('/api/javascript', (req, res) => {
 
   try {
     const result = eval(code);
-    res.json({status: 'success', result: result});
+    res.json({ status: 'success', result });
   } catch (error) {
-    res.json({status: 'error', message: error.message});
+    res.json({ status: 'error', message: error.message });
   }
+});
+
+app.use(express.static(path.join(__dirname, "../../frontend/build")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../../frontend/build/index.html"));
 });
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
+
