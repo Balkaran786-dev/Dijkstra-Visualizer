@@ -2,7 +2,7 @@ services:
   - type: web
     name: dijkstra-frontend
     env: static
-    buildCommand: npm run install-deps && npm run build
+    buildCommand: cd frontend && npm install && npm run build
     staticPublishPath: ./frontend/build
     routes:
       - type: rewrite
