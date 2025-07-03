@@ -1,7 +1,6 @@
 {
   "name": "dijkstra_algo",
   "version": "1.0.0",
-  "main": "index.js",
   "scripts": {
     "build": "cd frontend && npm ci && npm run build",
     "start": "cd backend/baceknd && npm start",
@@ -9,7 +8,5 @@
   },
   "license": "ISC",
   "description": "",
-  "dependencies": {
-    "ajv": "^8.17.1"
-  }
+  "dependencies": {}
 }
