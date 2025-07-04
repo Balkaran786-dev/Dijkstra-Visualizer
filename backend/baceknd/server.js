@@ -53,11 +53,30 @@ app.post('/api/javascript', (req, res) => {
   }
 });
 
-app.use(express.static(path.join(__dirname, "../../frontend/build")));
+// Serve frontend files only if they exist (for local development)
+const frontendBuildPath = path.join(__dirname, "../../frontend/build");
+if (fs.existsSync(frontendBuildPath)) {
+  app.use(express.static(frontendBuildPath));
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../../frontend/build/index.html"));
-});
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(frontendBuildPath, "index.html"));
+  });
+} else {
+  // API-only mode for production deployment
+  app.get("/", (req, res) => {
+    res.json({
+      message: "Dijkstra Visualizer API Server",
+      status: "running",
+      endpoints: {
+        "POST /api/cpp": "Execute C++ Dijkstra algorithm"
+      }
+    });
+  });
+
+  app.get("*", (req, res) => {
+    res.status(404).json({ error: "API endpoint not found" });
+  });
+}
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
