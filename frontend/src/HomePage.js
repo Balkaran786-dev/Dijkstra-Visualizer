@@ -69,7 +69,7 @@ int main() {
     setLoading(true);
     try {
       const response = await fetch(
-        `http://localhost:3001/api/${selectedLanguage}`,
+        `https://dijkstra-visualizer-10.onrender.com/api/${selectedLanguage}`,
         {
           method: "POST",
           headers: {
