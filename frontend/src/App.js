@@ -1,39 +1,28 @@
-import React from "react";
-import { Route, Link, Routes } from "react-router-dom";
+import React, { useState } from "react";
+import { Routes, Route } from "react-router-dom";
 import "./App.css";
-import PathfindingVisualizerPage from "./PathfindingVisualizerPage";
-import HomePage from "./HomePage";
+import Navbar from "./components/Navbar";
+import IntroductionPage from "./pages/IntroductionPage";
+import CodeEditorPage from "./pages/CodeEditorPage";
+import VisualizerPage from "./pages/VisualizerPage";
 
 function App() {
+  const [darkMode, setDarkMode] = useState(false);
+
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+  };
+
   return (
-    <div className="App">
-      <header className="header">
-        <h1>Dijkstra's Algorithm</h1>
-        <p>Shortest Path Finding Algorithm</p>
-        <nav>
-          <Link to="/">Home</Link>
-          <Link to="/visualizer">Visualizer</Link>
-        </nav>
-      </header>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/visualizer" element={<PathfindingVisualizerPage />} />
-      </Routes>
-      {/* <footer className="footer">
-        <p>
-          © All rights reserved. |{" "}
-          <a
-            href="https://www.linkedin.com/in/guptaachyut/"
-            style={{ color: "white" }}
-          >
-            LinkedIn
-          </a>{" "}
-          |{" "}
-          <a href="https://github.com/Lucifer4602" style={{ color: "white" }}>
-            GitHub
-          </a>
-        </p>
-      </footer> */}
+    <div className={`App ${darkMode ? 'dark-mode' : 'light-mode'}`}>
+      <Navbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+      <main className="main-content">
+        <Routes>
+          <Route path="/" element={<IntroductionPage />} />
+          <Route path="/editor" element={<CodeEditorPage />} />
+          <Route path="/visualizer" element={<VisualizerPage />} />
+        </Routes>
+      </main>
     </div>
   );
 }
