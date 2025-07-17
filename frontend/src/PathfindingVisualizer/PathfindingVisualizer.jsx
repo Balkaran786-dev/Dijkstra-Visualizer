@@ -143,12 +143,28 @@ export default class PathfindingVisualizer extends Component {
     }
 
     this.setState({ isRunning: true });
-    this.clearPath();
+
+    // Clear any previous path visualization
+    const nodes = document.querySelectorAll('.node');
+    nodes.forEach(node => {
+      node.classList.remove('node-visited', 'node-shortest-path');
+    });
+
+    // Reset algorithm data
+    const newGrid = grid.map(row =>
+      row.map(node => ({
+        ...node,
+        distance: Infinity,
+        isVisited: false,
+        previousNode: null,
+      }))
+    );
+    this.setState({ grid: newGrid });
 
     setTimeout(() => {
-      const startNode = grid[startNodeRow][startNodeCol];
-      const finishNode = grid[finishNodeRow][finishNodeCol];
-      const visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
+      const startNode = newGrid[startNodeRow][startNodeCol];
+      const finishNode = newGrid[finishNodeRow][finishNodeCol];
+      const visitedNodesInOrder = dijkstra(newGrid, startNode, finishNode);
       const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
       this.animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
     }, 100);
@@ -157,7 +173,7 @@ export default class PathfindingVisualizer extends Component {
   clearGrid() {
     if (this.state.isRunning) return;
 
-    // Completely reset everything - remove start/end nodes, walls, and paths
+    // Completely reset everything - remove start/end nodes, walls, paths, and clear the grid
     const newGrid = [];
     for (let row = 0; row < 25; row++) {
       const currentRow = [];
@@ -191,52 +207,7 @@ export default class PathfindingVisualizer extends Component {
     });
   }
 
-  clearWalls() {
-    if (this.state.isRunning) return;
 
-    // Only remove walls, keep start/end nodes and clear any paths
-    const { grid } = this.state;
-    const newGrid = grid.map(row =>
-      row.map(node => ({
-        ...node,
-        isWall: false,
-        distance: Infinity,
-        isVisited: false,
-        previousNode: null,
-      }))
-    );
-    this.setState({ grid: newGrid });
-
-    // Clear path visual classes but keep start/end nodes
-    const nodes = document.querySelectorAll('.node');
-    nodes.forEach(node => {
-      node.classList.remove('node-visited', 'node-shortest-path');
-    });
-  }
-
-  clearPath() {
-    if (this.state.isRunning) return;
-
-    // Only clear the explored path data, keep start/end nodes and walls exactly as they are
-    const { grid } = this.state;
-    const newGrid = grid.map(row =>
-      row.map(node => ({
-        ...node,
-        distance: Infinity,
-        isVisited: false,
-        previousNode: null,
-        // Preserve all other properties: isStart, isFinish, isWall remain unchanged
-      }))
-    );
-    this.setState({ grid: newGrid });
-
-    // Clear only path visual classes, keep start/end/wall styling intact
-    const nodes = document.querySelectorAll('.node');
-    nodes.forEach(node => {
-      node.classList.remove('node-visited', 'node-shortest-path');
-      // Note: start, finish, and wall classes are preserved
-    });
-  }
 
   setMode(mode, event) {
     if (this.state.isRunning) return;
@@ -358,27 +329,6 @@ export default class PathfindingVisualizer extends Component {
                   <polygon points="5,3 19,12 5,21" fill="currentColor"/>
                 </svg>
                 {isRunning ? 'Running...' : 'Visualize'}
-              </button>
-              <button
-                className="action-btn clear-btn"
-                onClick={() => this.clearPath()}
-                disabled={isRunning}
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                  <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" stroke="currentColor" strokeWidth="2" fill="none"/>
-                </svg>
-                Clear Path
-              </button>
-              <button
-                className="action-btn clear-btn"
-                onClick={() => this.clearWalls()}
-                disabled={isRunning}
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2" stroke="currentColor" strokeWidth="2" fill="none"/>
-                  <path d="M9 9l6 6M15 9l-6 6" stroke="currentColor" strokeWidth="2"/>
-                </svg>
-                Clear Walls
               </button>
               <button
                 className="action-btn reset-btn"

@@ -2,7 +2,7 @@ services:
   - type: web
     name: dijkstra-backend
     env: node
-    rootDir: backend/baceknd
+    rootDir: backend/backend
     buildCommand: npm install --production
     startCommand: node server.js
     envVars:
@@ -10,3 +10,13 @@ services:
         value: production
       - key: PORT
         value: 10000
+
+  - type: web
+    name: dijkstra-frontend
+    env: node
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    startCommand: npm run serve
+    envVars:
+      - key: NODE_ENV
+        value: production
